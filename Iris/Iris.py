@@ -56,15 +56,25 @@ df['Species'].value_counts()
 
 #Preprocessing the Dataset
 
-#Label encoding to convert class labels into numeric form
+#從 scikit-learn 的 preprocessing 模組中匯入 LabelEncoder，這個類別可以把「字串類別」轉換成「數值編號」
 from sklearn.preprocessing import LabelEncoder
+#建立一個 LabelEncoder 的實例（物件），命名為 le，準備對類別欄位進行轉換
 le = LabelEncoder()
+#對 Species 欄位的每個類別進行轉換，將字串類別變成整數編號，並把結果存回 df['Species']
 df['Species'] = le.fit_transform(df['Species'])
+#顯示轉換後的 Species 欄位內容，也就是每筆資料現在都變成數字 0、1、2 的形式
 df['Species']
 
+#顯示整個 DataFrame（df），此時 Species 欄位已經從字串變成數字，方便模型訓練
 df
 
-# check for null values
+"""
+檢查資料是否有缺失值
+df.isnull()
+對整個 DataFrame 執行「是否為缺失值」的判斷，會回傳一個布林值表格（True 代表該格是 null）
+.sum()
+對每個欄位將 True 數量加總（因為 True 被視為 1，False 為 0），得到每一欄中「缺失值的數量」
+"""
 df.isnull().sum()
 
 #Exploratory Data Analysis (EDA)
