@@ -88,19 +88,37 @@ df['PetalLengthCm'].hist()
 #展示花瓣寬度的直方圖，觀察其數值分布
 df['PetalWidthCm'].hist()
 
-# Plot scatterplots to visualize relationships between features
+#畫散佈圖來觀察特徵之間的關係
+#對應三個花種的資料點將以red、orange、blue三種顏色畫出
 colors = ['red', 'orange', 'blue']
+#species 是對應已經經過 LabelEncoder 編碼後的花種標籤（0：Setosa、1：Versicolor、2：Virginica）
 species = [0, 1, 2]
 
-# Scatter plot for Sepal Length vs Sepal Width
+#花萼長 vs 花萼寬
+#一次處理一種花種的資料
 for i in range(3):
+    #選出第 i 種花，把這些資料存成新的變數 x
     x = df[df['Species'] == species[i]]
+    #用 plt.scatter() 畫出這類花的花萼長度（x 軸）和花萼寬度（y 軸）關係圖
+    #c=colors[i]：這類花用第 i 種顏色畫
+    #label=species[i]：給圖例（legend）加上標籤，例如 0、1、2
     plt.scatter(x['SepalLengthCm'], x['SepalWidthCm'], c=colors[i], label=species[i])
+#設定 x 軸的標籤為 "Sepal Length"
 plt.xlabel("Sepal Length")
+#設定 y 軸的標籤為 "Sepal Width"
 plt.ylabel("Sepal Width")
+#顯示圖例，圖例會對應 label=species[i] 的內容（也就是 0、1、2）
 plt.legend()
 
-# Scatter plot for Petal Length vs Sepal Length
+#花瓣長 vs 花瓣寬
+for i in range(3):
+    x = df[df['Species'] == species[i]]
+    plt.scatter(x['PetalLengthCm'], x['PetalWidthCm'], c = colors[i], label=species[i])
+plt.xlabel("Petal Length")
+plt.ylabel("Petal Width")
+plt.legend()
+
+#花萼長 vs 花瓣長
 for i in range(3):
     x = df[df['Species'] == species[i]]
     plt.scatter(x['SepalLengthCm'], x['PetalLengthCm'], c = colors[i], label=species[i])
@@ -108,7 +126,7 @@ plt.xlabel("Sepal Length")
 plt.ylabel("Petal Length")
 plt.legend()
 
-# Scatter plot for Sepal Width vs Petal Width
+#花萼寬 vs 花瓣寬
 for i in range(3):
     x = df[df['Species'] == species[i]]
     plt.scatter(x['SepalWidthCm'], x['PetalWidthCm'], c = colors[i], label=species[i])
