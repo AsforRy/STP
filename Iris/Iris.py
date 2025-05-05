@@ -79,19 +79,13 @@ df.isnull().sum()
 
 #Exploratory Data Analysis (EDA)
 
-# Plot histograms of each feature
+#從資料表中選出「花萼長度」這欄，並畫出這個欄位的值的分布圖
 df['SepalLengthCm'].hist()
-
+#畫出花萼寬度這一欄的數值分布情形
 df['SepalWidthCm'].hist()
-
+#顯示花瓣長度的數值分布圖
 df['PetalLengthCm'].hist()
-
-df['PetalWidthCm'].hist()
-
-#Plotting the histogram of all features toghether
-df['SepalLengthCm'].hist()
-df['SepalWidthCm'].hist()
-df['PetalLengthCm'].hist()
+#展示花瓣寬度的直方圖，觀察其數值分布
 df['PetalWidthCm'].hist()
 
 # Plot scatterplots to visualize relationships between features
@@ -104,14 +98,6 @@ for i in range(3):
     plt.scatter(x['SepalLengthCm'], x['SepalWidthCm'], c=colors[i], label=species[i])
 plt.xlabel("Sepal Length")
 plt.ylabel("Sepal Width")
-plt.legend()
-
-# Scatter plot for Petal Length vs Petal Width 
-for i in range(3):
-    x = df[df['Species'] == species[i]]
-    plt.scatter(x['PetalLengthCm'], x['PetalWidthCm'], c = colors[i], label=species[i])
-plt.xlabel("Petal Length")
-plt.ylabel("Petal Width")
 plt.legend()
 
 # Scatter plot for Petal Length vs Sepal Length
