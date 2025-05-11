@@ -136,59 +136,111 @@ plt.legend()
 
 #Correlation Matrix
 
-# Compute the correlation matrix 
+"""
+df.corr() 會計算資料集中所有數值欄位之間的 皮爾森相關係數 (Pearson correlation coefficient)
+回傳的是一個方陣（DataFrame），代表任兩欄之間的線性相關程度： 1 表示完全正相關
+                                                        -1 表示完全負相關
+                                                        0 表示無相關
+"""
 df.corr()
 
 # display the correlation matrix using a heatmap
+#再次執行 df.corr()，並把結果存到 corr 變數中，以便後續使用（畫圖）
 corr = df.corr()
+#建立一個新的圖表與子圖（figure 和 axes） ex: figsize=(5, 4) 設定圖表的寬高為 5 吋 x 4 吋
 fig, ax = plt.subplots(figsize=(5, 4))
+"""
+使用 seaborn 繪製熱力圖（heatmap）來呈現相關係數矩陣：
+corr：要視覺化的相關係數資料
+annot=True：在每個格子內標示出數值
+ax=ax：指定繪圖的目標子圖（前一行定義的 ax）
+cmap='coolwarm'：使用紅藍配色（紅為正相關，藍為負相關，中間為白）
+"""
 sns.heatmap(corr, annot=True, ax=ax, cmap='coolwarm')
 
 #Model Training
 
 # Split the dataset into training and testing sets
+#從 sklearn 匯入 train_test_split 函數，用來將資料集拆成訓練集與測試集
 from sklearn.model_selection import train_test_split
+#將 Species（目標欄位）以外的欄位作為特徵（X）輸入模型
 X = df.drop(columns=['Species'])
+#將 Species 欄作為標籤（Y），即模型要學會預測的對象
 Y = df['Species']
+"""
+將資料分成 60% 訓練、40% 測試：
+x_train, y_train: 訓練資料
+x_test, y_test: 測試資料
+（test_size=0.40 表示保留 40% 給測試）
+"""
 x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.40)
 
-# Logistic Regression Model
+# Logistic Regression Model(邏輯回歸)
+#匯入邏輯回歸分類模型
 from sklearn.linear_model import LogisticRegression
+#建立一個邏輯回歸模型的實例 model1
 model1 = LogisticRegression()
+#使用訓練資料 x_train, y_train 來訓練模型
 model1.fit(x_train, y_train)
+#在測試資料上評估準確率，乘以 100 變成百分比格式顯示
 print("Accuracy (Logistic Regression): ", model1.score(x_test, y_test) * 100)
 
-# K-nearest Neighbours Model (KNN)
+# K-nearest Neighbours Model (KNN)(K最近鄰分類)
+#匯入 KNN 分類模型
 from sklearn.neighbors import KNeighborsClassifier
+#建立一個 KNN 模型的實例 model2（預設 k=5）
 model2 = KNeighborsClassifier()
+#用訓練資料訓練模型
 model2.fit(x_train, y_train)
+#測試模型在測試資料的分類準確度
 print("Accuracy (KNN): ", model2.score(x_test, y_test) * 100)
 
-# Decision Tree Model
+# Decision Tree Model(決策樹分類)
+#匯入決策樹分類器
 from sklearn.tree import DecisionTreeClassifier
+#建立決策樹模型實例 model3
 model3 = DecisionTreeClassifier()
+#用訓練資料訓練模型
 model3.fit(x_train, y_train)
+#顯示測試資料的分類準確度（百分比格式）
 print("Accuracy (Decision Tree): ", model3.score(x_test, y_test) * 100)
 
-#Confusion Matrix
+#Confusion Matrix(混淆矩陣)
 
+#從 sklearn.metrics 匯入 confusion_matrix 函數，用來計算分類模型的預測結果與真實標籤之間的對照
 from sklearn.metrics import confusion_matrix
 
+#使用邏輯回歸模型 (model1) 對測試資料進行預測，結果存到 y_pred1
 y_pred1 = model1.predict(x_test)
+#使用 KNN 模型進行預測
 y_pred2 = model2.predict(x_test)
+#使用決策樹模型進行預測
 y_pred3 = model3.predict(x_test)
 
+#比較 Logistic Regression 的預測值與實際值，建立混淆矩陣
 conf_matrix1 = confusion_matrix(y_test, y_pred1)
+#建立 KNN 模型的混淆矩陣
 conf_matrix2 = confusion_matrix(y_test, y_pred2)
+#建立 Decision Tree 模型的混淆矩陣
 conf_matrix3 = confusion_matrix(y_test, y_pred3)
 
+#Logistic Regression 的混淆矩陣視覺化
+#建立一個新圖表，設定大小為 8x6 吋
 plt.figure(figsize=(8, 6))
+"""使用 seaborn 繪製混淆矩陣的熱力圖：
+annot=True：在格子內顯示數值
+fmt='d'：數值格式為整數
+cmap='Blues'：使用藍色調色盤
+xticklabels, yticklabels：標籤對應類別（0,1,2）
+"""
 sns.heatmap(conf_matrix1, annot=True, fmt='d', cmap='Blues', xticklabels=np.unique(Y), yticklabels=np.unique(Y))
+#設定 X/Y 軸與圖標標題，並顯示圖表
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
 plt.title('Confusion Matrix of Logistic Regression')
 plt.show()
 
+#KNN 的混淆矩陣視覺化
 plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix2, annot=True, fmt='d', cmap='Blues', xticklabels=np.unique(Y), yticklabels=np.unique(Y))
 plt.xlabel('Predicted Label')
@@ -196,6 +248,7 @@ plt.ylabel('True Label')
 plt.title('Confusion Matrix of KNN')
 plt.show()
 
+#Decision Tree 的混淆矩陣視覺化
 plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix3, annot=True, fmt='d', cmap='Blues', xticklabels=np.unique(Y), yticklabels=np.unique(Y))
 plt.xlabel('Predicted Label')
