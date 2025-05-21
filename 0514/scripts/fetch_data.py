@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
-import numpy as np
-from ucimlrepo import fetch_ucirepo
+import pandas as pd # type: ignore
+import numpy as np # type: ignore
+from ucimlrepo import fetch_ucirepo # type: ignore
 import os
 
 os.makedirs("../data", exist_ok=True)

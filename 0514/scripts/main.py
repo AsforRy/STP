@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
-import numpy as np
+import pandas as pd # type: ignore
+import numpy as np # type: ignore
 import os
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, f1_score, classification_report
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.neighbors import KNeighborsClassifier
-from xgboost import XGBClassifier
-from lightgbm import LGBMClassifier
-from catboost import CatBoostClassifier
-from imblearn.over_sampling import SMOTE
+from sklearn.model_selection import train_test_split, GridSearchCV # type: ignore
+from sklearn.preprocessing import StandardScaler # type: ignore
+from sklearn.metrics import accuracy_score, f1_score, classification_report # type: ignore
+from sklearn.tree import DecisionTreeClassifier # type: ignore
+from sklearn.ensemble import RandomForestClassifier # type: ignore
+from sklearn.svm import SVC # type: ignore
+from sklearn.neighbors import KNeighborsClassifier # type: ignore
+from xgboost import XGBClassifier # type: ignore
+from lightgbm import LGBMClassifier # type: ignore
+from catboost import CatBoostClassifier # type: ignore
+from imblearn.over_sampling import SMOTE # type: ignore
 import warnings
 
 warnings.filterwarnings("ignore")
