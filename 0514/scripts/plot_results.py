@@ -1,7 +1,7 @@
 # plot_results.py
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import pandas as pd # type: ignore
+import matplotlib.pyplot as plt # type: ignore
+import seaborn as sns # type: ignore
 import os
 
 def plot_comparison_charts(csv_path="../results/comparison_results.csv", output_dir="../results"):
