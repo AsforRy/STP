@@ -114,3 +114,6 @@ with open("../results/classification_report.txt", "w", encoding="utf-8") as f:
 print("\n📊 模型效能總比較：")
 print(results_df.to_string(index=False))
 print("\n✅ 所有結果已儲存至 'results/' 資料夾")
+
+from plot_results import plot_comparison_charts
+plot_comparison_charts()
