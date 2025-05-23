@@ -27,7 +27,7 @@ models = {
     "KNN": KNeighborsClassifier(),
     "XGBoost": XGBClassifier(eval_metric='logloss'),
     "LightGBM": LGBMClassifier(verbose=-1, force_col_wise=True, n_jobs=1),
-    "CatBoost": CatBoostClassifier(verbose=0, save_snapshot=False)
+    "CatBoost": CatBoostClassifier(save_snapshot=False, logging_level="Silent")
 }
 
 # === 參數網格 ===
