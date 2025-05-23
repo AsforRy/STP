@@ -72,7 +72,8 @@ def evaluate_and_log(model, name, X_train, X_test, y_train, y_test, param_grid=N
 datasets = {
     "Wine Quality": pd.read_csv("../data/wine_processed.csv"),
     "Heart Disease": pd.read_csv("../data/heart_processed.csv"),
-    "Breast Cancer": pd.read_csv("../data/breast_cancer_processed.csv")
+    "Breast Cancer": pd.read_csv("../data/breast_cancer_processed.csv"),
+    "Online Retail": pd.read_csv("../data/online_retail_processed.csv")
 }
 
 # === 主迴圈 ===
@@ -80,6 +81,11 @@ use_gridsearch = True
 use_smote = True
 
 for dataset_name, df in datasets.items():
+    
+    # 若是 Online Retail，限制最多 3000 筆資料以避免模型過慢
+    if dataset_name == "Online Retail":
+        df = df.sample(n=3000, random_state=42)
+    
     X = df.drop("target", axis=1)
     y = df["target"]
 

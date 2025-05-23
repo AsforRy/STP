@@ -12,6 +12,8 @@ heart_disease = fetch_ucirepo(id=45)
 
 breast_cancer = fetch_ucirepo(id=17)
 
+online_retail = fetch_ucirepo(id=352) 
+
 # === Wine Quality 資料處理 ===
 X_wine = wine_quality.data.features.copy()
 y_wine = wine_quality.data.targets
@@ -70,7 +72,40 @@ y_bc.name = "target"
 bc_data = pd.concat([X_bc, y_bc], axis=1)
 bc_data.to_csv("../data/breast_cancer_processed.csv", index=False)
 
-print("✅ 預處理完成，已儲存 wine_processed.csv 與 heart_processed.csv 與 breast_cancer_processed.csv")
+
+# === Online Retail ===
+
+X_or = online_retail.data.features.copy()
+y_or = online_retail.data.targets 
+
+# 合併特徵與目標
+or_data = pd.concat([X_or, y_or], axis=1)
+
+# 去除缺失值
+or_data = or_data.dropna() 
+
+# 嘗試找出 Invoice 欄位，並排除退貨（C開頭）
+invoice_col = [col for col in or_data.columns if 'invoice' in col.lower()]
+if invoice_col:
+    col_name = invoice_col[0]
+    or_data = or_data[~or_data[col_name].astype(str).str.startswith('C')]
+
+# 建立新欄位：總金額 = 數量 × 單價
+or_data['TotalAmount'] = or_data['Quantity'] * or_data['UnitPrice']
+
+# 建立二元分類目標欄位：是否為大額訂單（總金額 > 100）
+or_data['target'] = (or_data['TotalAmount'] > 100).astype(int)
+
+# 保留必要欄位
+or_data = or_data[['Quantity', 'UnitPrice', 'TotalAmount', 'Country', 'target']]
+
+# 對類別欄位做 one-hot 編碼
+or_data = pd.get_dummies(or_data, columns=['Country'])
+
+# 儲存結果
+or_data.to_csv("../data/online_retail_processed.csv", index=False)
+
+print("✅ 預處理完成，已儲存 wine_processed.csv 與 heart_processed.csv 與 breast_cancer_processed.csv and online_retail_processed.csv")
 
 
 """
